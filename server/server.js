@@ -3,6 +3,8 @@ const app = express();
 const bodyParser = require( 'body-parser' );
 const PORT = 5000;
 
+app.use(express.static('server/public'));
+
 // use bodyParser.urlencoded throughout the app with this:
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -34,8 +36,40 @@ let jokes = [
   }
 ];
 
-// serve back static files
-app.use(express.static('server/public'));
+// * Express Request / Response Body
+
+
+app.get('/jokes', (req, res) => {
+
+    res.send(jokes);
+})
+
+
+
+// * EXPRESS POST Request: Adding new data to the server
+// POST: save new data to the server
+// Route is set up to handle POST requests to the '/calculate' endpoint
+app.post('/addJokes', (req, res) => {
+    let data = req.body;
+    let whoseJokeIn = data.whoseJokeIn;
+    let questionIn = data.questionIn;
+    let punchlineIn = data.punchlineIn;
+
+
+    let pushJoke = {
+      whoseJokeIn: whoseJokeIn,
+      questionIn: questionIn,
+      punchlineIn: punchlineIn
+    };
+
+    jokes.push(pushJoke);
+
+    // If the post was successful, a status code of 
+    // 200, meaning OK, is sent in response. 
+    res.sendStatus(200);
+
+});
+
 
 
 
