@@ -8,6 +8,7 @@ app.use(express.static('server/public'));
 // use bodyParser.urlencoded throughout the app with this:
 app.use(bodyParser.urlencoded({ extended: true }));
 
+
 let jokes = [
   {
     whoseJoke: "Danny",
@@ -39,6 +40,7 @@ let jokes = [
 // * Express Request / Response Body
 
 
+
 app.get('/jokes', (req, res) => {
 
     res.send(jokes);
@@ -49,17 +51,18 @@ app.get('/jokes', (req, res) => {
 // * EXPRESS POST Request: Adding new data to the server
 // POST: save new data to the server
 // Route is set up to handle POST requests to the '/calculate' endpoint
-app.post('/addJokes', (req, res) => {
+app.post('/jokes', (req, res) => {
+  console.log('in server app.post:', req.body);
     let data = req.body;
-    let whoseJokeIn = data.whoseJokeIn;
-    let questionIn = data.questionIn;
-    let punchlineIn = data.punchlineIn;
+    let whoseJoke = data.whoseJokeIn;
+    let jokeQuestion = data.questionIn;
+    let punchLine = data.punchlineIn;
 
 
     let pushJoke = {
-      whoseJokeIn: whoseJokeIn,
-      questionIn: questionIn,
-      punchlineIn: punchlineIn
+      whoseJoke: whoseJoke,
+      jokeQuestion: jokeQuestion,
+      punchLine: punchLine
     };
 
     jokes.push(pushJoke);
@@ -69,9 +72,6 @@ app.post('/addJokes', (req, res) => {
     res.sendStatus(200);
 
 });
-
-
-
 
 
 
