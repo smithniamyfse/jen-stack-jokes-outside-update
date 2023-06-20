@@ -12,7 +12,22 @@ function onReady() {
 
 }
 
+function getJokes() {
+    console.log('in getJokes()');
+        // AJAX GET Method: Requests data. This can be tested in the browser.
+        $.ajax({
+            method: 'GET',
+            url: '/jokes'
+    
+        }).then(function(response) {
+            console.log('getJokes', response);
+            displayJokes(response);
+    
+        }).catch(function(error) {
+            alert('❌ Error in retrieving list of jokes.', error);
+        });
 
+}
 
 
 function addJokes() {
@@ -32,14 +47,12 @@ console.log(`${JSON.stringify(addJokeData)}`);
     // AJAX POST Method: Sends data to the server 
     $.ajax({
         method: 'POST',
-        url: '/addJokes',
-        data: addJokesData
+        url: '/jokes',
+        data: addJokeData
     }).then(function(response) {
+        console.log('in addJokes()', response)
+        getJokes();
 
-       
-        getJokes(response);
-
-        // displayJokes();
 
         // Will display error alert window if issue with code
     }).catch(function(error) {
@@ -50,35 +63,17 @@ console.log(`${JSON.stringify(addJokeData)}`);
 
 
 
-
-function getJokes() {
-    console.log('in getJokes()');
-        // AJAX GET Method: Requests data. This can be tested in the browser.
-        $.ajax({
-            method: 'GET',
-            url: '/jokes'
-    
-        }).then(function(response) {
-            console.log('getJokes', response);
-            displayJokes(response);
-    
-        }).catch(function(error) {
-            alert('❌ Error in retrieving list of jokes.', error);
-        });
-
-}
-
-function displayJokes(jokes) {
+function displayJokes(response) {
     console.log('in displayJokes()');
 
     $('#outputDiv').empty();
 
-    for(let joke of jokes) {
+    for(let joke of response) {
 
         $('#outputDiv').append(`
-            <div>${joke.whoseJokeIn}</div>
-            <div>${joke.questionIn}</div>
-            <div>${joke.punchlineIn}</div>
+            <div>${joke.whoseJoke}</div>
+            <div>${joke.jokeQuestion}</div>
+            <div>${joke.punchLine}</div>
         `)
 
     }
